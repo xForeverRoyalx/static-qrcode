@@ -1,0 +1,9 @@
+.env
+instance/
+standards.txt
+update_standards.py
+passenger_wsgi.py
+.venv/
+__pycache__/
+*.pyc
+.idea
