@@ -1,0 +1,84 @@
+<div class="header-container">
+    <div class="header-tile-container header-tile-logos">
+        <a class="header-logo-wrap-redirect" href="{{ url_for('public.index') }}">
+            <h1 class="header-logo-title">
+                <span class="logo-title">QUIKER</span>
+                <img class="header-logo" src="static/assets/quickerqr_logo_500.png">
+            </h1>
+        </a>
+
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">☰</button>
+
+        <div class="header-right-group-container" id="mobileMenu">
+            <a class="header-nav-wrap-redirect" href="{{ url_for('public.about') }}">
+                <span class="header-nav-label">Our Story</span>
+            </a>
+            <a class="header-nav-wrap-redirect" href="{{ url_for('public.services') }}">
+                <span class="header-nav-label">Services</span>
+            </a>
+            <a class="header-nav-wrap-redirect" href="{{ url_for('community.index') }}">
+                <span class="header-nav-label">Discussions</span>
+            </a>
+
+            <div class="header-nav-dropdown">
+                <button class="header-nav-wrap-redirect header-nav-dropdown-toggle" type="button">
+                    <span class="header-nav-label">Resources</span>
+                    <span class="header-nav-caret">▾</span>
+                </button>
+                <div class="header-nav-dropdown-menu">
+                    <a class="header-nav-dropdown-item" href="{{ url_for('public.reviews') }}">Reviews</a>
+                    <a class="header-nav-dropdown-item" href="{{ url_for('public.recommendations') }}">Recommendations</a>
+                    <a class="header-nav-dropdown-item" href="{{ url_for('public.guides') }}">Guides</a>
+                </div>
+            </div>
+
+            <a class="header-nav-wrap-redirect" href="{{ url_for('public.contact') }}">
+                <span class="header-nav-label">Connect</span>
+            </a>
+
+            {# --- Auth & Account Logic --- #}
+            {% if session.get('user_id') %}
+            <div class="header-user-account">
+                <button class="header-user-toggle" id="userAccountToggle" type="button">
+                    {% if session.get('avatar_url') %}
+                        <img src="{{ session.get('avatar_url') }}" alt="{{ session.get('first_name') }}" class="header-user-avatar">
+                    {% else %}
+                        <div class="header-user-avatar-default">{{ session.get('first_name', 'U')[0]|upper }}</div>
+                    {% endif %}
+                    <span class="header-user-name">{{ session.get('first_name', 'Account') }}</span>
+                    <span class="header-nav-caret">▾</span>
+                </button>
+
+                <div class="header-user-dropdown">
+                    <div class="header-user-info">
+                        <p class="header-user-email">{{ session.get('email') }}</p>
+                        <span class="header-user-tier">{{ session.get('role', 'member')|title }}</span>
+                    </div>
+
+                    {% if session.get('role') == 'user' %}
+                        <a href="{{ url_for('user.profile') }}" class="header-user-dropdown-item">My Profile</a>
+                        <a href="{{ url_for('user.bookings') }}" class="header-user-dropdown-item">My Bookings</a>
+                    {% endif %}
+
+                    {% if session.get('role') == 'superadmin' %}
+                        <a href="{{ url_for('superadmin.dashboard') }}" class="header-user-dropdown-item">SuperAdmin Dashboard</a>
+                    {% elif session.get('role') == 'admin' %}
+                        <a href="{{ url_for('admin.dashboard') }}" class="header-user-dropdown-item">Admin Dashboard</a>
+                    {% elif session.get('role') == 'developer' %}
+                        <a href="{{ url_for('developer.dashboard') }}" class="header-user-dropdown-item">Developer Dashboard</a>
+                    {% elif session.get('role') == 'user' %}
+                        <a href="{{ url_for('user.dashboard') }}" class="header-user-dropdown-item">User Dashboard</a>
+                    {% endif %}
+
+                    <div class="header-dropdown-divider"></div>
+                    <a href="{{ url_for('authentication.logout') }}" class="header-user-dropdown-item header-logout">Sign Out</a>
+                </div>
+            </div>
+            {% else %}
+            <a class="header-nav-wrap-redirect header-signin-btn" href="{{ url_for('authentication.signin') }}">
+                <span class="header-nav-label">Sign In</span>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>

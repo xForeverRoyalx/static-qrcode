@@ -1,1 +1,17 @@
-<div>TITLE</div>
+{% extends "base/public_base.html" %}
+
+{% block title %}QuickerQR{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/public.css') }}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="header">TITLE</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+
+{% endblock %}
